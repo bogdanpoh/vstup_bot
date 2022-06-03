@@ -21,6 +21,9 @@ class BotKeyboards(object):
         self.lessons_form_magistr = "lessons_form_magistr"
         self.lessons_form_doctor_philosophii = "lessons_form_doctor_philosophii"
 
+        #university
+        self.university_how_find_us = "university_how_find_us"
+
         # zno
         self.zno_language = "zno_language"
         self.zno_math = "zno_math"
@@ -89,6 +92,33 @@ class BotKeyboards(object):
             InlineKeyboardButton("Хто може видавати атестат?", callback_data=self.vstup_atestat),
             InlineKeyboardButton("Додаткова інформація про вступ", callback_data=self.vstup_addiction_information),
             # InlineKeyboardButton("Контакти приймальної комісії", callback_data=self.vstup_have_questions),
+            self.make_back_button()
+        )
+
+        return markup
+
+    def university_keyboard(self) -> InlineKeyboardMarkup:
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            self.make_link_button("Детальніше", "https://nupp.edu.ua/page/vstup.html"),
+            self.make_link_button("Спеціальності", "https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
+            self.make_link_button("Освітній центр «КРИМ - УКРАЇНА»", "https://nupp.edu.ua/page/osvitniy-tsentr-krim-ukraina.html"),
+            self.make_link_button("Освітній центр «ДОНБАС – УКРАЇНА»", "https://nupp.edu.ua/page/osvitniy-tsentr-donbas-ukraina.html"),
+            self.make_link_button("Безкоштовні тренінги «Високий бал НМТ»", "https://nupp.edu.ua/news/vidkrita-reestratsiya-na-trening-visokiy-bal-nmt.html"),
+            self.make_link_button("Міжнародні програми", "https://nupp.edu.ua/page/mizhnarodni-programi.html"),
+            self.make_link_button("Підготовчі курси", "https://nupp.edu.ua/page/pidgotovche-viddilennya.html"),
+            self.make_link_button("Держзамовлення", "https://nupp.edu.ua/page/derzhzamovlennya.html"),
+            self.make_link_button("Вступ на основі повної загальної середньої освіти", "https://nupp.edu.ua/page/vstup-na-osnovi-pzso.html"),
+            self.make_link_button("Вступ на основі рівня молодшого спеціаліста", "https://nupp.edu.ua/page/vstup-na-osnovi-okr-ms.html"),
+            self.make_link_button("Вступ на основі ступеня бакалавра, магістра", "https://nupp.edu.ua/page/vstup-na-osnovi-stupenya-bakalavra-magistra.html"),
+            self.make_link_button("Приймальна комісія", "https://vstup.nupp.edu.ua"),
+            self.make_link_button("Вартість навчання", "https://vstup.nupp.edu.ua/page/vartist-navchannya.html"),
+            self.make_link_button("Реквізити", "https://nupp.edu.ua/page/requisites.html"),
+            self.make_link_button("Вступ на кафедру військової підготовки", "https://nupp.edu.ua/page/vstup-na-viyskovu-kafedru.html"),
+            self.make_link_button("Післядипломна освіта", "https://nupp.edu.ua/page/pislyadiplomna-osvita-pidvishchennya-kvalifikatsii-ta-stazhuvannya.html"),
+            self.make_link_button("Аспірантура та Докторантура", "https://nupp.edu.ua/page/aspirantura-ta-doktorantura.html"),
+            self.make_link_button("Студентське самоврядування", "https://nupp.edu.ua/page/studentske-samovriaduvannya.html"),
+            InlineKeyboardButton("Як нас знайти?", callback_data=self.university_how_find_us),
             self.make_back_button()
         )
 

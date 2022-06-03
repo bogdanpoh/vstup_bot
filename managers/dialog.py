@@ -24,7 +24,7 @@ class Dialog(object):
 
         self.menu_buttons = [
             MenuButton(bot_keyboard.callback_lessons, constants.lessons_info, bot_keyboard.lessons_keyboard()),
-            MenuButton(bot_keyboard.callback_about_university, "про університет", bot_keyboard.back_keyboard()),
+            MenuButton(bot_keyboard.callback_about_university, constants.university_info, bot_keyboard.university_keyboard()),
             MenuButton(bot_keyboard.callback_vstup, constants.vstup_info, bot_keyboard.vstup_keyboard()),
             MenuButton(bot_keyboard.callback_zno, constants.zno_info, bot_keyboard.zno_keyboard()),
             MenuButton(bot_keyboard.callback_have_questions, constants.contacts_have_questions, bot_keyboard.contacts_keyboard()),
@@ -36,6 +36,13 @@ class Dialog(object):
         self.menu_actions = [
             MenuAction(bot_keyboard.callback_lessons,
                        images=["images/calendar/bakalavr.jpg", "images/calendar/magistr.jpg"]),
+
+            MenuAction(
+                bot_keyboard.university_how_find_us,
+                constants.university_how_find_us,
+                image="images/geo.png",
+                keyboard=bot_keyboard.link_keyboard("Знайти нас на мапі", "https://goo.gl/maps/Fz6m4iagcdT2U6fz7")
+            ),
 
             MenuAction(
                 bot_keyboard.zno_language,

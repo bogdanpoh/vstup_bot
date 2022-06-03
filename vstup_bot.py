@@ -15,7 +15,6 @@ command_list = ["start"]
 
 # system
 def get_current_date() -> str:
-    # now = datetime.datetime.now() - datetime.timedelta(minutes=7)
     now = datetime.now()
     formatted_date = now.strftime("%d.%m.%Y %H:%M")
 
