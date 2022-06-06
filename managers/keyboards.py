@@ -35,6 +35,15 @@ class BotKeyboards(object):
         self.vstup_balls = "vstup_balls"
         self.vstup_atestat = "vstup_atestat"
         self.vstup_addiction_information = "vstup_addiction_information"
+
+        # sex
+        self.sex_man = "sex_man"
+        self.sex_woman = "sex_woman"
+
+        # yes, no
+        self.callback_yes = "callback_yes"
+        self.callback_no = "callback_no"
+
         # back button
         self.callback_back_to_main = "back_to_main"
 
@@ -130,6 +139,37 @@ class BotKeyboards(object):
             self.make_link_button("Детальніше", "https://vstup.nupp.edu.ua/page/contacts.html"),
             self.make_back_button()
         )
+
+        return markup
+
+    def specialities_keyboard(self) -> InlineKeyboardMarkup:
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            InlineKeyboardButton("Спеціальність 1", callback_data="1"),
+            InlineKeyboardButton("Спеціальність 2", callback_data="2"),
+            InlineKeyboardButton("Спеціальність 3", callback_data="3"),
+            InlineKeyboardButton("Спеціальність 4", callback_data="4"),
+            InlineKeyboardButton("Спеціальність 5", callback_data="5")
+        )
+
+        return markup
+
+    def sex_keyboard(self) -> InlineKeyboardMarkup:
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            InlineKeyboardButton("Ч", callback_data=self.sex_man),
+            InlineKeyboardButton("Ж", callback_data=self.sex_woman)
+        )
+
+        return markup
+
+    def yes_no_keyboard(self) -> InlineKeyboardMarkup:
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(
+            InlineKeyboardButton("Так", callback_data=self.callback_yes),
+            InlineKeyboardButton("Ні", callback_data=self.callback_no)
+        )
+
         return markup
 
     def back_keyboard(self, data: str = None) -> InlineKeyboardMarkup:

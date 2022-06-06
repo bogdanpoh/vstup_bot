@@ -3,14 +3,16 @@ from datetime import datetime
 from managers.keyboards import BotKeyboards
 from managers.dialog import Dialog
 from models.menu import MenuAction
+from models.letter import MotivationLetter
 from tools.switch import Switch
 from tools import constants
 import configs
 
 bot = TeleBot(configs.token)
 bot_keyboard = BotKeyboards()
+motivation_letter = MotivationLetter()
 
-command_list = ["start"]
+command_list = ["start", "motivation_letter"]
 
 
 # system
@@ -32,7 +34,10 @@ def show_log(message):
 # bot functions
 def get_user_info(message) -> str:
     user = message.from_user
-    user_info = f"{user.first_name} {user.last_name}"
+    user_info = f"{user.first_name}"
+
+    if user.last_name:
+        user_info = f"{user.first_name} {user.last_name}"
 
     return user_info
 
@@ -40,7 +45,7 @@ def get_user_info(message) -> str:
 # handlers
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(callback):
-    dialog = Dialog(bot, bot_keyboard, callback=callback)
+    dialog = Dialog(bot, bot_keyboard, callback=callback, motivation_letter=motivation_letter)
     data = callback.data
 
     for menu_button in dialog.menu_buttons:
@@ -50,6 +55,15 @@ def callback_query(callback):
     for menu_action in dialog.menu_actions:
         if menu_action.identifier == data:
             dialog.menu_action(menu_action)
+
+    if data == bot_keyboard.sex_man or data == bot_keyboard.sex_woman:
+        dialog.motivation_letter.sex = "man" if data == bot_keyboard.sex_man else "woman"
+
+        dialog.have_great_attestat()
+    elif data == bot_keyboard.callback_yes or data == bot_keyboard.callback_no:
+        dialog.motivation_letter.have_great_attestat = data == bot_keyboard.callback_yes
+
+        dialog.make_motivation_letter()
 
 
 @bot.message_handler(commands=command_list)
@@ -65,7 +79,8 @@ def command_handler(message):
     )
 
     Switch(msg)\
-        .case("/start", lambda: dialog.menu_action(start_action))
+        .case("/start", lambda: dialog.menu_action(start_action))\
+        .case("/motivation_letter", lambda: dialog.motivation_letter_start(user_info))
 
     show_log(message)
 

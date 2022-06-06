@@ -9,10 +9,10 @@ class MenuButton(BaseModel):
 
 
 class MenuAction(BaseModel):
-    def __init__(self, identifier=None, text=None, image=None, images=None, keyboard=None):
+    def __init__(self, identifier=None, text=None, image=None, images=None, keyboard=None, action=None):
         self.identifier = identifier
         self.text = text
         self.image = image
         self.images = images
         self.keyboard = keyboard
-
+        self.action = action
