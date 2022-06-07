@@ -1,4 +1,6 @@
+import os.path
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+from managers.file import FileManager
 
 
 class BotKeyboards(object):
@@ -36,6 +38,12 @@ class BotKeyboards(object):
         self.vstup_atestat = "vstup_atestat"
         self.vstup_addiction_information = "vstup_addiction_information"
 
+        #motivation letter
+        self.callback_motivation_letter = "callback_motivation_letter"
+
+        # speciality
+        self.callback_speciality = "s_"
+
         # sex
         self.sex_man = "sex_man"
         self.sex_woman = "sex_woman"
@@ -54,7 +62,8 @@ class BotKeyboards(object):
             InlineKeyboardButton("Про університет", callback_data=self.callback_about_university),
             InlineKeyboardButton("Вступна компанія 2022", callback_data=self.callback_vstup),
             InlineKeyboardButton("ЗНО (НМТ) 2022", callback_data=self.callback_zno),
-            InlineKeyboardButton("Контакти приймальної комісії", callback_data=self.callback_have_questions)
+            InlineKeyboardButton("Контакти приймальної комісії", callback_data=self.callback_have_questions),
+            InlineKeyboardButton("Генератор мотиваційного листа", callback_data=self.callback_motivation_letter)
         )
 
         return markup
@@ -69,16 +78,6 @@ class BotKeyboards(object):
         )
 
         return markup
-
-    # def lessons_form_keyboard(self, callback_data: str) -> InlineKeyboardMarkup:
-    #     markup = InlineKeyboardMarkup(row_width=1)
-    #
-    #     markup.add(
-    #         self.make_link_button("Спеціальності", "https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
-    #         InlineKeyboardButton("Форми", callback_data=callback_data)
-    #     )
-    #
-    #     return markup
 
     def zno_keyboard(self) -> InlineKeyboardMarkup:
         markup = InlineKeyboardMarkup(row_width=1)
@@ -143,14 +142,12 @@ class BotKeyboards(object):
         return markup
 
     def specialities_keyboard(self) -> InlineKeyboardMarkup:
-        markup = InlineKeyboardMarkup(row_width=1)
-        markup.add(
-            InlineKeyboardButton("Спеціальність 1", callback_data="1"),
-            InlineKeyboardButton("Спеціальність 2", callback_data="2"),
-            InlineKeyboardButton("Спеціальність 3", callback_data="3"),
-            InlineKeyboardButton("Спеціальність 4", callback_data="4"),
-            InlineKeyboardButton("Спеціальність 5", callback_data="5")
-        )
+        markup = InlineKeyboardMarkup(row_width=2)
+        specialities = FileManager.get_specialities()
+
+        for key, speciality_name in specialities.items():
+            callback = f"{self.callback_speciality}{key}"
+            markup.add(InlineKeyboardButton(speciality_name, callback_data=callback))
 
         return markup
 

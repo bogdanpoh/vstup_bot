@@ -8,7 +8,7 @@ from tools import constants
 
 
 class Dialog(object):
-    def __init__(self, bot: TeleBot, bot_keyboard: BotKeyboards, callback=None, message=None, motivation_letter=None):
+    def __init__(self, bot: TeleBot, bot_keyboard: BotKeyboards, callback=None, message=None, motivation_letter: MotivationLetter=None):
         self.bot = bot
         self.bot_keyboard = bot_keyboard
         self.message = None
@@ -18,14 +18,14 @@ class Dialog(object):
             self.message_id = callback.message.message_id
             user = callback.from_user
             self.chat_id = user.id
-            self.user_info = f"{user.first_name} {user.last_name}"
+            self.user_info = f"{user.first_name} {user.last_name}" if user.last_name else f"{user.first_name}"
             self.message = callback.message
 
         elif message:
             self.message_id = message.message_id
             self.chat_id = message.chat.id
             user = message.from_user
-            self.user_info = f"{user.first_name} {user.last_name}"
+            self.user_info = f"{user.first_name} {user.last_name}" if user.last_name else f"{user.first_name}"
             self.message = message
 
         self.menu_buttons = [
@@ -78,7 +78,7 @@ class Dialog(object):
             MenuAction(bot_keyboard.vstup_atestat, constants.vstup_atestat),
             MenuAction(bot_keyboard.vstup_addiction_information, constants.vstup_addiction_information),
 
-            MenuAction("1", constants.ml_get_school, action=lambda: self.motivation_letter_continue)
+            MenuAction("s_", constants.ml_get_school, action=lambda: self.motivation_letter_continue)
         ]
 
     def edit_message_text(self, text, keyboard=None):
@@ -104,8 +104,6 @@ class Dialog(object):
         image = menu_action.image
 
         if menu_action.action:
-            # self.bot.register_message_handler()
-            # msg = self.bot.send_message(self.chat_id, text)
             msg = self.edit_message_text(text)
             self.bot.register_next_step_handler(msg, menu_action.action())
         else:
@@ -158,4 +156,5 @@ class Dialog(object):
         self.edit_message_text(constants.ml_have_great_attestat, keyboard=self.bot_keyboard.yes_no_keyboard())
 
     def make_motivation_letter(self):
-        print(self.motivation_letter)
+        text = self.motivation_letter.make_text()
+        self.bot.send_message(self.chat_id, text)

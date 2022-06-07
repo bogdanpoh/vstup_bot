@@ -2,6 +2,7 @@ from telebot import TeleBot
 from datetime import datetime
 from managers.keyboards import BotKeyboards
 from managers.dialog import Dialog
+from managers.file import FileManager
 from models.menu import MenuAction
 from models.letter import MotivationLetter
 from tools.switch import Switch
@@ -52,9 +53,18 @@ def callback_query(callback):
         if menu_button.identifier == data:
             dialog.menu_transition(menu_button)
 
-    for menu_action in dialog.menu_actions:
-        if menu_action.identifier == data:
-            dialog.menu_action(menu_action)
+    if bot_keyboard.callback_motivation_letter == data:
+        dialog.motivation_letter_start(get_user_info(callback))
+    else:
+        for menu_action in dialog.menu_actions:
+            if menu_action.identifier == data or menu_action.identifier in data:
+                if bot_keyboard.callback_speciality in data:
+                    index = str(data).split("_")[-1]
+                    speciality = FileManager.get_speciality_by_index(index)
+                    motivation_letter.username = get_user_info(callback)
+                    motivation_letter.speciality = speciality
+
+                dialog.menu_action(menu_action)
 
     if data == bot_keyboard.sex_man or data == bot_keyboard.sex_woman:
         dialog.motivation_letter.sex = "man" if data == bot_keyboard.sex_man else "woman"
