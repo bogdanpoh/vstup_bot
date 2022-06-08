@@ -58,12 +58,12 @@ class BotKeyboards(object):
     def main_keyboard(self) -> InlineKeyboardMarkup:
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
-            InlineKeyboardButton("Навчання", callback_data=self.callback_lessons),
-            InlineKeyboardButton("Про університет", callback_data=self.callback_about_university),
-            InlineKeyboardButton("Вступна компанія 2022", callback_data=self.callback_vstup),
-            InlineKeyboardButton("ЗНО (НМТ) 2022", callback_data=self.callback_zno),
-            InlineKeyboardButton("Контакти приймальної комісії", callback_data=self.callback_have_questions),
-            InlineKeyboardButton("Генератор мотиваційного листа", callback_data=self.callback_motivation_letter)
+            InlineKeyboardButton("📚 Навчання", callback_data=self.callback_lessons),
+            InlineKeyboardButton("🏫 Про університет", callback_data=self.callback_about_university),
+            InlineKeyboardButton("📑 Вступна компанія 2022", callback_data=self.callback_vstup),
+            InlineKeyboardButton("✍️ ЗНО (НМТ) 2022", callback_data=self.callback_zno),
+            InlineKeyboardButton("☎️ Контакти приймальної комісії", callback_data=self.callback_have_questions),
+            InlineKeyboardButton("📩 Генератор мотиваційного листа", callback_data=self.callback_motivation_letter)
         )
 
         return markup
@@ -71,9 +71,9 @@ class BotKeyboards(object):
     def lessons_keyboard(self) -> InlineKeyboardMarkup:
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(
-            InlineKeyboardButton("Бакалавр", url="https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
-            InlineKeyboardButton("Магістр", url="https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
-            InlineKeyboardButton("Доктор філософії", url="https://nupp.edu.ua/page/spetsialnosti-aspiranturi.html"),
+            self.make_link_button("Бакалавр", link="https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
+            self.make_link_button("Магістр", link="https://nupp.edu.ua/page/spetsialnosti-osvitni-programi-ta-spetsializatsii.html"),
+            self.make_link_button("Доктор філософії", link="https://nupp.edu.ua/page/spetsialnosti-aspiranturi.html"),
             self.make_back_button()
         )
 
@@ -184,10 +184,15 @@ class BotKeyboards(object):
         return markup
 
     def make_back_button(self, data: str = None) -> InlineKeyboardButton:
-        button = InlineKeyboardButton("Назад", callback_data= data if data else self.callback_back_to_main)
+        button_title = "↩️ Назад"
+        button = InlineKeyboardButton(button_title, callback_data=data if data else self.callback_back_to_main)
+
         return button
 
     def make_link_button(self, text=None, link=None):
-        button = InlineKeyboardButton(text if text else "Довідкова інформація", url=link)
+        default_name = "Довідкова інформація"
+        button_title = f"🔗 {text if text else default_name}"
+        button = InlineKeyboardButton(button_title, url=link)
+
         return button
 
